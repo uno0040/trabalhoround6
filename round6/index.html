@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Round6 Matemático</title>
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://kit.fontawesome.com/9d8ddca57b.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+      crossorigin="anonymous"
+    />
+    
+
+  </head>
+  <body>
+    <div class= "titulo">
+        <a href="https://fontmeme.com/squid-game-font/"><img src="https://fontmeme.com/permalink/211207/664804e150b0178541e672cfd13ec9cb.png"
+           alt="squid-game-font" border="0" class="titulo1"/></a>
+    </div>
+    <div class="geral">
+      <section class="header"></section>
+      
+
+     
+      <section class="bodydojogo">
+        <button class="botaoinstrucoes" id="botaoinstrucoes">
+          COMO JOGAR
+        </button>
+
+       
+        <div class="temporizadordisplay">
+          
+          <div class="centralizador"></div>
+
+          <button class="botaoiniciar" id="botaoiniciar">START GAME</button>
+          <h4 id="temporizador">Tempo : 300 segundos</h4>
+        </div>
+        <div class="comentarios" id="comentarios"></div>
+       
+        <div class="tentativas">
+          <h4 class="contador-de-vidas">Vidas restantes : 4</h4>
+        </div>
+        <div class="comentarios">
+          <h4 id = "pergunta"></h4>
+        </div>
+        
+        <div class="espacamentodojogo">
+          <div class="inicio">
+            <h3 class="textoinicio">
+              <p>I</p>
+              <p>N</p>
+              <p>I</p>
+              <p>C</p>
+              <p>I</p>
+              <p>O</p>
+            </h3>
+
+            <!-- player icon -->
+            <span class="posicaoinicial">
+              <!-- <span class="player-icon"></span> -->
+              <img
+                src="./media/icone.png"
+                alt="playericon"
+                class="iconejogador"
+              />
+            </span>
+          </div>
+
+          <!-- glass tiles -->
+          <div class="vidros">
+            <div class="vidro" id="vidro-cima" data-value="1"></div>
+            <div class="vidro" id="vidro-cima" data-value="3"></div>
+            <div class="vidro" id="vidro-cima" data-value="5"></div>
+            <div class="vidro" id="vidro-cima" data-value="7"></div>
+            <div class="vidro" id="vidro-cima" data-value="9"></div>
+            <div class="vidro" id="vidro-cima" data-value="11"></div>
+            <div class="vidro" id="vidro-cima" data-value="13"></div>
+            <div class="vidro" id="vidro-baixo" data-value="2"></div>
+            <div class="vidro" id="vidro-baixo" data-value="4"></div>
+            <div class="vidro" id="vidro-baixo" data-value="6"></div>
+            <div class="vidro" id="vidro-baixo" data-value="8"></div>
+            <div class="vidro" id="vidro-baixo" data-value="10"></div>
+            <div class="vidro" id="vidro-baixo" data-value="12"></div>
+            <div class="vidro" id="vidro-baixo" data-value="14"></div>
+          </div>
+          <!-- ends glass tiles -->
+
+          <div class="fim">
+            <span class="posicaofinal">
+              <span class="posicaosegurada"></span>
+            </span>
+            <h3 class="textofinal">
+              <p>F</p>
+              <p>I</p>
+              <p>M</p>      
+            </h3>
+          </div>
+        </div>
+        <!-- end main game area -->
+      </section>
+
+      <!-- gameover screen -->
+      <section class="displaygameover hide">
+        <h2 class="disptextogameover hide">Game Over</h2>
+      </section>
+
+      <!--  -->
+      <section class="footer"></section>
+    </div>
+    <script src="script.js" charset="UTF-8"></script>
+  </body>
+</html>
