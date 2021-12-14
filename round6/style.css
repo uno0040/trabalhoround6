@@ -5,12 +5,12 @@ body {
 }
 
 .titulo {
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0;
-    height: 250px;
-    width: 500px;
-  }
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  height: 250px;
+  width: 500px;
+}
 
 .geral {
   margin: 0;
@@ -122,8 +122,55 @@ img {
   align-self: flex-end;
   margin-bottom: 2.5px;
 }
-
+#vidro-cima1 {
+  align-self: flex-end;
+  margin-bottom: 2.5px;
+}
+#vidro-cima2 {
+  align-self: flex-end;
+  margin-bottom: 2.5px;
+}
+#vidro-cima3 {
+  align-self: flex-end;
+  margin-bottom: 2.5px;
+}
+#vidro-cima4 {
+  align-self: flex-end;
+  margin-bottom: 2.5px;
+}
+#vidro-cima5 {
+  align-self: flex-end;
+  margin-bottom: 2.5px;
+}
+#vidro-cima6 {
+  align-self: flex-end;
+  margin-bottom: 2.5px;
+}
 #vidro-baixo {
+  align-self: flex-inicio;
+  margin-top: 2.5px;
+}
+#vidro-baixo1 {
+  align-self: flex-inicio;
+  margin-top: 2.5px;
+}
+#vidro-baixo2 {
+  align-self: flex-inicio;
+  margin-top: 2.5px;
+}
+#vidro-baixo3 {
+  align-self: flex-inicio;
+  margin-top: 2.5px;
+}
+#vidro-baixo4 {
+  align-self: flex-inicio;
+  margin-top: 2.5px;
+}
+#vidro-baixo5 {
+  align-self: flex-inicio;
+  margin-top: 2.5px;
+}
+#vidro-baixo6 {
   align-self: flex-inicio;
   margin-top: 2.5px;
 }
@@ -217,6 +264,13 @@ img {
   justify-content: center;
   align-items: center;
   font-size: 40px;
+}
+
+.displaygameover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .disptextogameover {
