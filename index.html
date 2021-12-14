@@ -6,18 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Round6 Matemático</title>
     <link rel="stylesheet" href="style.css" />
-    <script
-      src="https://kit.fontawesome.com/9d8ddca57b.js"
-      crossorigin="anonymous"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-      crossorigin="anonymous"
-    />
-    
-
   </head>
   <body>
     <div class= "titulo">
@@ -39,7 +27,7 @@
           
           <div class="centralizador"></div>
 
-          <button class="botaoiniciar" id="botaoiniciar">START GAME</button>
+          <button class="botaoiniciar" id="botaoiniciar">INICIAR JOGO</button>
           <h4 id="temporizador">Tempo : 300 segundos</h4>
         </div>
         <div class="comentarios" id="comentarios"></div>
@@ -62,9 +50,9 @@
               <p>O</p>
             </h3>
 
-            <!-- player icon -->
+            <!-- Icone do Jogador -->
             <span class="posicaoinicial">
-              <!-- <span class="player-icon"></span> -->
+
               <img
                 src="./media/icone.png"
                 alt="playericon"
@@ -73,7 +61,7 @@
             </span>
           </div>
 
-          <!-- glass tiles -->
+          <!-- Tabuleiro -->
           <div class="vidros">
             <div class="vidro" id="vidro-cima" data-value="1"></div>
             <div class="vidro" id="vidro-cima1" data-value="3"></div>
@@ -90,10 +78,7 @@
             <div class="vidro" id="vidro-baixo5" data-value="12"></div>
             <div class="vidro" id="vidro-baixo6" data-value="14"></div>
           </div>
-          <!-- ends glass tiles
-          2,4,5,7,9,12,14
-        '4','81','63','2','4x^3+9','6','33x^2+7x^3'
-      '6','67','83','4','2x^3+5','3','27x^2+5x^3' -->
+          <!-- Final do tabuleiro -->
 
           <div class="fim" id="fim">
             <span class="posicaofinal">
@@ -106,15 +91,16 @@
             </h3>
           </div>
         </div>
-        <!-- end main game area -->
+     
       </section>
 
-      <!-- gameover screen -->
+
+      <!-- Tela de Gameover -->
       <section class="displaygameover hide" id="displaygameover">
         <h2 class="disptextogameover hide" id="disptextogameover">Game Over</h2>
       </section>
 
-      <!--  -->
+      
       <section class="footer"></section>
     </div>
     <script src="script.js" charset="UTF-8"></script>
