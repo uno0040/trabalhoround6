@@ -1,6 +1,7 @@
-
 const InstrucaoBotao = document.getElementById("botaoinstrucoes"); // botao de instrucoes
 const iniciobotao = document.getElementById("botaoiniciar"); // botao que inicia o jogo
+//botoes 
+
 const Temporizador = document.getElementById("temporizador"); // temporizador
 const Comentarios = document.getElementById("comentarios"); // comentarios no html
 const ContadorDeVidas = document.querySelector(".contador-de-vidas"); // conta vidas
@@ -10,15 +11,13 @@ const vidro = document.querySelectorAll(".vidro"); // opcoes, os "vidros" da ser
 const PosicaoInicial = document.querySelector(".posicaoinicial"); // posicao inicial
 const PosicaoFinal = document.querySelector(".posicaofinal"); // ultima posicao
 const AsseguraPosicao = document.querySelector(".posicaosegurada"); // <-- segura a ultima posicao registrada
+
 const telagameover = document.getElementById("displaygameover"); // tela de game over
 const textogameover = document.getElementById("disptextogameover"); // texto de game over
-const botaoreiniciar = document.getElementById("botaoreiniciar"); // botao que reinicia o game
-const fim = document.getElementById("fim");
+const fim = document.getElementById("fim"); // fim do jogo
 
-// desliga ou liga a musica
-const musicatema = document.getElementById("musicatema"); // musica tema do squid game?
 
-const perguntas = ['2+2',
+const perguntas = ['2+2', 
 '9*9'
 ,'7*9'
 ,'6/3'
@@ -57,21 +56,21 @@ const respostaserradas = ['6','67','83','4','2x^3+5','3','27x^2+5x^3','x^2-726',
 '3/11','2,75','6/11','7/14','26,5%','7%','-(3 √9)/15','375.900','20','9/3','-4','31,6','-13','44'];
 
 let Tempo = 300; // tempo para responder as pergunta
-let iniciajogo = false;
+let iniciajogo = false; // boolean de inicio de jogo
 let totaldevidas = 4; // numero total de vidas
-let perdervidroaleatoriamente = [];
-let perdervida = false;
-let vidroanteriorlimpo = true;
-let proximovidro;
-let iconejogador;
-let i = 1;
+let perdervidroaleatoriamente = []; ; // cria o array que ira receber os vidros que geram condicao de derrota
+let perdervida = false; // boolean que se true ativa a perda de vida do jogador
+let vidroanteriorlimpo = true; // se o vidro anterior foi limpado e liberado do jogador
+let proximovidro; // proxima jogada
+let iconejogador; // icone jpg do jogador
+let i = 1; // a variavel i age como um index que mostra em qual coluna o jogador esta e atualiza as perguntas dependendo do estado do jogador
 let gameover = false; // perda total de vidas ocasiona nisso
-let intervalo;
-let perguntatemporario;
-let aleatoriorespostas;
-let Telha = [];
+let intervalo; // intervalo do timer
+let perguntatemporario; // variavel que na funcao perguntasselect aleatoriza qual sera a primeira questao a ser selecionada
+let Telha = []; // array de vidros falsos, errados
 
-let displayPerguntas = [];
+let displayPerguntas = []; // na funcao perguntasselect, o codigo seleciona baseado na aleatorizacao da variavel perguntatemporario
+                          // as perguntas que serao mostradas e insere elas nesse array
 
 // CONFIGURANDO OS VIDROS
 const vidroArray = {
@@ -84,154 +83,151 @@ const vidroArray = {
   7: [13, 14],
 };
 
+// funcao que aleatoriza as questoes que serao mostradas na tela
 function perguntasselect() {
   let contador = 0;
   
-  perguntatemporario = parseInt(Math.random() * (24 - 0) + 0);
+  perguntatemporario = parseInt(Math.random() * (24 - 0) + 0); // randomiza a questao inicial
   //console.log(perguntatemporario);
-  while (contador < 8) {
+  while (contador < 8) {  // seleciona as perguntas para o array displayPerguntas baseado nas selecionadas aleatoriamente
     displayPerguntas[contador] = perguntas[contador + perguntatemporario]; 
     //console.log(displayPerguntas[contador]);
-
     contador++;
   }
-  document.getElementById("pergunta").innerHTML = displayPerguntas[0]; 
+  document.getElementById("pergunta").innerHTML = displayPerguntas[0]; // mostra a primeira pergunta selecionada
 }
 
+// funcao que mostra a pergunta atual, acionada toda vez que i for incrementado
 function perguntaAtual(){
   document.getElementById("pergunta").innerHTML = displayPerguntas[i];
-  
 }
 
 
-// instrução para notificação do botão
+// funcao do botao de instrucoes
 function instructions() {
   alert(
     "Os jogadores terão de cruzar duas pontes paralelas saltando sobre paineis de vidro, para que possam saber onde pular, calculos matematicos serão perguntados ao jogador e a resposta estará no vidro resistente onde o jogador proseguira para proxima fase, caso erre o jogador tem mais 3 vidas."
   );
 }
-
-InstrucaoBotao.addEventListener("click", instructions);
+InstrucaoBotao.addEventListener("click", instructions); // botao de instrucoes
 
 //Controle de botão iniciar 
 iniciobotao.addEventListener("click" ,() => {
-  iniciajogo = true;
-  atualizaRepostas();
-  let diminuidor = 1; 
-  intervalo = setInterval(() => {
+  iniciajogo = true; // inicia o jogo na variavel
+  atualizaRepostas(); // insere as respostas no jogo
+  let diminuidor = 1;  // diminui o tempo
+  intervalo = setInterval(() => { // inicia o timer
     if (Tempo > 0) {
-      Tempo = Tempo - diminuidor;
+      Tempo = Tempo - diminuidor; // diminui o tempo
       Temporizador.innerText = `Tempo : ${Tempo}sec`;
       if (Tempo == 0) {
         gameOver();
       }
     }
-  }, 1000);
+  }, 1000); // intervalo de 1000ms
 }, perguntasselect());
 
-//gerando peças perdidas aleatórias para o jogo
+// chama a funcao para gerar vidros aleatorios que acionam a condicao de perdervida, recebendo Telha da funcao abaixo
 perdervidroaleatoriamente = geravidrosaleatorios(vidroArray);
 
-//computador gerando números de blocos aleatórios para perder
+// funcao que gera os vidros com as respostas erradas
 function geravidrosaleatorios(vidroArray) {
   
-  for (const set in vidroArray) {
+  for (const set in vidroArray) { // randomizando os vidros errados
     Telha.push(getRandom(vidroArray[set][0], vidroArray[set][1]));
 
   } 
-  console.log(Telha);
-  return Telha;
+  //console.log(Telha);
+  return Telha; // retornando um array com os vidros que terao respostas erradas
   
 }
+// funcao que atualiza as resposta na tela, botando as respostas certas e erradas no tabuleiro de jogo, nos "vidros"
 function atualizaRepostas() {
 
-  if (Telha[0] == 1) {
+  if (Telha[0] == 1) { // se a telha da primeira coluna de cima for a escolhida errada, mostrar a resposta errada
   document.getElementById("vidro-cima").innerHTML = respostaserradas[perguntatemporario];
   document.getElementById("vidro-baixo").innerHTML = respostas[perguntatemporario];
-  } else if (Telha[0] == 2){  
+  } else if (Telha[0] == 2){  // se a telha da primeira coluna de baixo for a escolhida errada, mostrar a resposta errada
   document.getElementById("vidro-cima").innerHTML = respostas[perguntatemporario];
   document.getElementById("vidro-baixo").innerHTML = respostaserradas[perguntatemporario];
   }
 
-  if (Telha[1] == 3) {
+  if (Telha[1] == 3) { // se a telha da segunda coluna de cima for a escolhida errada, mostrar a resposta errada
     document.getElementById("vidro-cima1").innerHTML = respostaserradas[perguntatemporario + 1];
     document.getElementById("vidro-baixo1").innerHTML = respostas[perguntatemporario + 1];
-  } else if (Telha[1] == 4){
+  } else if (Telha[1] == 4){  // se a telha da segunda coluna de baixo for a escolhida errada, mostrar a resposta errada
     document.getElementById("vidro-cima1").innerHTML = respostas[perguntatemporario + 1];
     document.getElementById("vidro-baixo1").innerHTML = respostaserradas[perguntatemporario + 1]; 
   }
 
-  if (Telha[2] == 5) {
+  if (Telha[2] == 5) { // se a telha da terceira coluna de cima for a escolhida errada, mostrar a resposta errada
     document.getElementById("vidro-cima2").innerHTML = respostaserradas[perguntatemporario + 2];
     document.getElementById("vidro-baixo2").innerHTML = respostas[perguntatemporario + 2];
-  } else if (Telha[2] == 6){
+  } else if (Telha[2] == 6){  // se a telha da terceira coluna de baixo for a escolhida errada, mostrar a resposta errada
     document.getElementById("vidro-cima2").innerHTML = respostas[perguntatemporario + 2];
     document.getElementById("vidro-baixo2").innerHTML = respostaserradas[perguntatemporario + 2]; 
   }
 
-  if (Telha[3] == 7) {
+  if (Telha[3] == 7) { // se a telha da quarta coluna de cima for a escolhida errada, mostrar a resposta errada
     document.getElementById("vidro-cima3").innerHTML = respostaserradas[perguntatemporario + 3];
     document.getElementById("vidro-baixo3").innerHTML = respostas[perguntatemporario + 3];
-  } else if (Telha[3] == 8){
+  } else if (Telha[3] == 8){  // se a telha da quarta coluna de baixo for a escolhida errada, mostrar a resposta errada
     document.getElementById("vidro-cima3").innerHTML = respostas[perguntatemporario + 3];
     document.getElementById("vidro-baixo3").innerHTML = respostaserradas[perguntatemporario + 3]; 
   }
 
-  if (Telha[4] == 9) {
+  if (Telha[4] == 9) { // se a telha da quinta coluna de cima for a escolhida errada, mostrar a resposta errada
     document.getElementById("vidro-cima4").innerHTML = respostaserradas[perguntatemporario + 4];
     document.getElementById("vidro-baixo4").innerHTML = respostas[perguntatemporario + 4];
-  } else if (Telha[4] == 10){
+  } else if (Telha[4] == 10){  // se a telha da quinta coluna de baixo for a escolhida errada, mostrar a resposta errada
     document.getElementById("vidro-cima4").innerHTML = respostas[perguntatemporario + 4];
     document.getElementById("vidro-baixo4").innerHTML = respostaserradas[perguntatemporario + 4]; 
   }
 
-  if (Telha[5] == 11) {
+  if (Telha[5] == 11) { // se a telha da sexta coluna de cima for a escolhida errada, mostrar a resposta errada
     document.getElementById("vidro-cima5").innerHTML = respostaserradas[perguntatemporario + 5];
     document.getElementById("vidro-baixo5").innerHTML = respostas[perguntatemporario + 5];
-  } else if (Telha[5] == 12){
+  } else if (Telha[5] == 12){  // se a telha da sexta coluna de baixo for a escolhida errada, mostrar a resposta errada
     document.getElementById("vidro-cima5").innerHTML = respostas[perguntatemporario + 5];
     document.getElementById("vidro-baixo5").innerHTML = respostaserradas[perguntatemporario + 5]; 
   }
 
-  if (Telha[6] == 13) {
+  if (Telha[6] == 13) { // se a telha da ultima coluna de cima for a escolhida errada, mostrar a resposta errada
     document.getElementById("vidro-cima6").innerHTML = respostaserradas[perguntatemporario + 6];
     document.getElementById("vidro-baixo6").innerHTML = respostas[perguntatemporario + 6];
-  } else if (Telha[6] == 14){
+  } else if (Telha[6] == 14){  // se a telha da ultima coluna de baixo for a escolhida errada, mostrar a resposta errada
     document.getElementById("vidro-cima6").innerHTML = respostas[perguntatemporario + 6];
     document.getElementById("vidro-baixo6").innerHTML = respostaserradas[perguntatemporario + 6]; 
   }
 }
 
-// quando o jogo começar
+// adiciona um event listener para os botoes do tabuleiro
 vidro.forEach((Telha) => {
   Telha.addEventListener("click", () => {
-    // checando se o botao iniciajogo foi apertado
+    // checando se o jogo foi iniciado
     if (!iniciajogo) {
       alert("Pressione primeiro o botao iniciar!");
       return;
     }
+    // verificar se o conjunto de vidros anterior foi limpado
+    if ( vidroArray[i][0] == Telha.dataset.value ||
+         vidroArray[i][1] == Telha.dataset.value ) {
+      // console.log("vidros anteriores limpos");
 
-    // verificar se o conjunto de vidros anterior foi apagado
-    if (
-      vidroArray[i][0] == Telha.dataset.value ||
-      vidroArray[i][1] == Telha.dataset.value
-    ) {
-      // console.log("Limpo");
+      vidroanteriorlimpo = true; // boolean para determinar se for limpo ou nao os vidros anteriores
 
-      vidroanteriorlimpo = true;
-
-      //removendo o ícone do Jogador do vidro anterior
+      // removendo o ícone do Jogador do vidro anterior
       if (i != 1) proximovidro.removeChild(Jogador);
-      // Verificando se é um vidro errado
+      // Checando se é um vidro errado
       perdervidroaleatoriamente.forEach((lostTelha) => {
         if (Telha.dataset.value == lostTelha) {
           perdervida = true;
-
-          // DEBUG console.log("vidas - 1");
+          // console.log("vidas - 1");
         }
-      }); perguntaAtual();
+      }); perguntaAtual(); // <- atualiza a pergunta mostrada
       return;
     }
+    // o if abaixo impede o jogador de jogar em vidros atras dele, paralelos a ele, e vidros ja "caidos"
     if (Telha.dataset.value) {
       alert("Selecione todas as respostas certas em sequencia!");
       vidroanteriorlimpo = false;
@@ -250,17 +246,18 @@ vidro.forEach((Telha) => {
     /*if (i > 8) {
       venceu();
     }*/
+    // vida perdida, if executado
     if (perdervida) {
-      Comentarios.innerText = "Você perdeu uma vida!";
-      Telha.style.backgroundColor = "black";
-      PosicaoInicial.appendChild(Jogador);
-      i = 1;
-      totaldevidas--;
-      document.getElementById("pergunta").innerHTML = displayPerguntas[0]; 
-      ContadorDeVidas.innerText = `Vidas restantes : ${totaldevidas}`;
+      Comentarios.innerText = "Você perdeu uma vida!"; // declara para o jogador o que aconteceu
+      Telha.style.backgroundColor = "black"; // escurece o vidro quebrado
+      PosicaoInicial.appendChild(Jogador); // move o icone do jogador para a posicao inicial
+      i = 1; // define a primeira posicao
+      totaldevidas--; // reduz o total de vidas
+      document.getElementById("pergunta").innerHTML = displayPerguntas[0];//como o jogador voltou para a posicao inicial, eh mostrada a primeira pergunta
+      ContadorDeVidas.innerText = `Vidas restantes : ${totaldevidas}`; // display que a vida foi perdida
 
       perdervida = false; //Resetando o perdervida
-      Telha.dataset.value = null;
+      Telha.dataset.value = null; // anula os tiles anteriores
 
       //checando se o total de vidas é 0
       if (totaldevidas <= 0) {
@@ -271,7 +268,7 @@ vidro.forEach((Telha) => {
     } else {
       //se o jogador pisa no vidro certo, então i++
       i++;
-      console.log("O I ta igual a " + i);
+      //console.log("O I ta igual a " + i);
       moveJogador(Telha);
       //   console.log("ir em frente");
       Comentarios.innerText = "Siga em frente!";
@@ -289,7 +286,7 @@ function getRandom(min, max) {
 
 // Jogador se movendo para o próximo conjunto de vidro
 function moveJogador(Telha) {
-  Telha.appendChild(Jogador);
+  Telha.appendChild(Jogador); // move o jpg
   proximovidro = Telha;
 }
 
@@ -299,20 +296,20 @@ fim.addEventListener("click", () => {
     venceu();
   } else { return; }
 });
-//
 
-
+// funcao que aciona o game over caso alguma das condicoes para game over for verdadeira (Acabar o tempo e o numero de vidas chegar a zero)
 function gameOver() {
-  bodydojogo.classList.add("hide");
-  telagameover.classList.remove("hide");
-  disptextogameover.classList.remove("hide");
-  clearInterval(intervalo);
+  bodydojogo.classList.add("hide"); // esconde o jogo
+  telagameover.classList.remove("hide"); // mostra a tela de game over
+  disptextogameover.classList.remove("hide"); // mostra o texto de game over
+  clearInterval(intervalo); // limpa o intervalo
 }
 
+// funcao que limpa a tela e aciona a tela de vitoria do jogador quando ele chega ate o final com vidas e tempo sobrando
 function venceu() {
-  bodydojogo.classList.add("hide");
-  telagameover.classList.remove("hide");
-  textogameover.classList.remove("hide");
-  textogameover.style.color = "white";
-  textogameover.innerText = "Você ganhou! Parabens!  Aperte F5 para jogar novamente!";
+  bodydojogo.classList.add("hide"); // esconde o jogo
+  telagameover.classList.remove("hide"); // mostra a tela de game over
+  textogameover.classList.remove("hide"); // mostra o texto de game over
+  textogameover.style.color = "white"; // fonte branca
+  textogameover.innerText = "Você ganhou! Parabens!  Aperte F5 para jogar novamente!"; // muda o texto de game over do html
 }

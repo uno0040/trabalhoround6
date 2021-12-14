@@ -277,22 +277,6 @@ img {
   text-align: center;
   font-size: 70px;
 }
-#botaoreinicio {
-  display: block;
-  margin: 0 auto;
-  height: 100px;
-  background-color: #2b0152;
-  color: white;
-  font-size: 45px;
-  border-radius: 10px;
-  width: 70%;
-}
-
-#botaoreinicio:hover {
-  background-color: #d62473;
-  color: whitesmoke;
-  border: none;
-}
 
 h4 {
   color: #13cbcb;
